@@ -37,16 +37,27 @@ getForecastBtn.addEventListener("click", function (event) {
                 })
                 .then(function (data) {
                     console.log(data);
-                    let currentCityName = data.city.name;
+                    let city = data.city.name;
                     let date = data.list[0].dt_txt;
                     let icon = data.list[0].weather[0].icon;
                     let temperature = data.list[0].main.temp;
                     let humidity = data.list[0].main.humidity;
                     let windSpeed = data.list[0].wind.speed;
-                    console.log(currentCityName, date, icon, temperature, humidity, windSpeed);
+                    console.log(city, date, icon, temperature, humidity, windSpeed);
 
-                    let todaysForecast = document.querySelector("#")
+                    let todayCity = document.querySelector("#today-city");
+                    let todayDate = document.querySelector("#today-date");
+                    let todayIcon = document.querySelector("#today-icon");
+                    let todayTemperature = document.querySelector("#today-temperature");
+                    let todayHumidity = document.querySelector("#today-humidity");
+                    let todayWindSpeed = document.querySelector("#today-wind-speed");
 
+                    todayCity.textContent = (city);
+                    todayDate.textContent = (date);
+                    todayIcon.textContent = (icon);
+                    todayTemperature.textContent = ("Temp: " + temperature + "'F");
+                    todayHumidity.textContent = ("Humidity: " + humidity + "%");
+                    todayWindSpeed.textContent = ("Wind Speed: " + windSpeed + " MPH");
                 });
         });
 })
