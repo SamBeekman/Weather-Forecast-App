@@ -1,9 +1,5 @@
 let apiKey = "938b5f6bb7e5bccaf0bebce340c61317";
 
-
-// let lat =
-// let lon =
-
 //api to convert city name to geo coordinates
 
 let getForecastBtn = document.querySelector("#get-forecast");
@@ -29,7 +25,7 @@ getForecastBtn.addEventListener("click", function (event) {
 
             // let latitude = localStorage.getItem(`${location}-lat`);
             // let longitude = localStorage.getItem(`${location}-lon`);
-            let requestUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey;
+            let requestUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey + "&units=metric";
 
             fetch(requestUrl)
                 .then(function (response) {
@@ -37,42 +33,31 @@ getForecastBtn.addEventListener("click", function (event) {
                 })
                 .then(function (data) {
                     console.log(data);
-                    let city = data.city.name;
-                    let date = data.list[0].dt_txt;
-                    let icon = data.list[0].weather[0].icon;
-                    let temperature = data.list[0].main.temp;
-                    let humidity = data.list[0].main.humidity;
-                    let windSpeed = data.list[0].wind.speed;
-                    console.log(city, date, icon, temperature, humidity, windSpeed);
 
-                    let todayCity = document.querySelector("#today-city");
-                    let todayDate = document.querySelector("#today-date");
-                    let todayIcon = document.querySelector("#today-icon");
-                    let todayTemperature = document.querySelector("#today-temperature");
-                    let todayHumidity = document.querySelector("#today-humidity");
-                    let todayWindSpeed = document.querySelector("#today-wind-speed");
+                    // slice out values 0, 8, 16, 24, 32, 40 from data array
+                    let dataArray = [data.list[0], data.list[8], data.list[16], data.list[24], data.list[32], data.list[39]];
 
-                    todayCity.textContent = (city);
-                    todayDate.textContent = (date);
-                    todayIcon.textContent = (icon);
-                    todayTemperature.textContent = ("Temp: " + temperature + "'F");
-                    todayHumidity.textContent = ("Humidity: " + humidity + "%");
-                    todayWindSpeed.textContent = ("Wind Speed: " + windSpeed + " MPH");
+                    let cityEl = document.querySelector("#city");
+                    cityEl.textContent = data.city.name;
 
                     //for 5 day forecast use loop and creating elements in loop
 
-                    for (let i = 1; i < 6; i++) {
+                    for (let i = 0; i < dataArray.length; i++) {
 
-                        let date = data.list[i].dt_txt;
-                        let icon = data.list[i].weather[0].icon;
-                        let temperature = data.list[i].main.temp;
-                        let humidity = data.list[i].main.humidity;
-                        let windSpeed = data.list[i].wind.speed;
+                        let date = dataArray[i].dt_txt;
+                        date = (date.slice(0, 11));
+                        let icon = dataArray[i].weather[0].icon;
+                        let temperature = "Temp: " + dataArray[i].main.temp + "\u00B0C";
+                        let humidity = "Humidity: " + dataArray[i].main.humidity + "%";
+
+                        let wind = dataArray[i].wind.speed * 1.60934;
+                        let windConvert = wind.toFixed(2);
+                        let windSpeed = "Wind: " + windConvert + " Kph";
 
                         let day = document.querySelector(`#day${i}`);
                         let infoArray = [date, icon, temperature, humidity, windSpeed];
 
-                        for (let j = 0; j < 5; j++) {
+                        for (let j = 0; j < infoArray.length; j++) {
 
                             let newDiv = document.createElement('div');
                             newDiv.textContent = infoArray[j];
