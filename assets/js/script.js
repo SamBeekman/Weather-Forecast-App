@@ -58,6 +58,27 @@ getForecastBtn.addEventListener("click", function (event) {
                     todayTemperature.textContent = ("Temp: " + temperature + "'F");
                     todayHumidity.textContent = ("Humidity: " + humidity + "%");
                     todayWindSpeed.textContent = ("Wind Speed: " + windSpeed + " MPH");
+
+                    //for 5 day forecast use loop and creating elements in loop
+
+                    for (let i = 1; i < 6; i++) {
+
+                        let date = data.list[i].dt_txt;
+                        let icon = data.list[i].weather[0].icon;
+                        let temperature = data.list[i].main.temp;
+                        let humidity = data.list[i].main.humidity;
+                        let windSpeed = data.list[i].wind.speed;
+
+                        let day = document.querySelector(`#day${i}`);
+                        let infoArray = [date, icon, temperature, humidity, windSpeed];
+
+                        for (let j = 0; j < 5; j++) {
+
+                            let newDiv = document.createElement('div');
+                            newDiv.textContent = infoArray[j];
+                            day.appendChild(newDiv);
+                        };
+                    };
                 });
         });
 })
