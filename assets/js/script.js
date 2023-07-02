@@ -1,8 +1,9 @@
 let apiKey = "938b5f6bb7e5bccaf0bebce340c61317";
 
-
+let historyArray = [];
 
 let getForecastBtn = document.querySelector("#get-forecast");
+let searchResult = document.querySelector("#search");
 
 getForecastBtn.addEventListener("click", function (event) {
     event.preventDefault();
@@ -22,6 +23,22 @@ getForecastBtn.addEventListener("click", function (event) {
 
     let searchBarEl = document.querySelector("#userSearch");
     let cityName = searchBarEl.value;
+    if (!historyArray.includes(cityName)) {
+
+        let displaySearchResult = document.createElement('button');
+        displaySearchResult.classList.add("btn", "btn-secondary", "history-button", `${cityName}`);
+        displaySearchResult.textContent = cityName;
+        searchResult.appendChild(displaySearchResult);
+        historyArray.push(cityName);
+        localStorage.setItem("history", JSON.stringify(historyArray));
+    }
+
+    getWeather(cityName);
+});
+
+
+
+function getWeather(cityName) {
     let cityNameConvert = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey;
 
     fetch(cityNameConvert)
@@ -35,16 +52,6 @@ getForecastBtn.addEventListener("click", function (event) {
             let lat = data.coord.lat;
             let lon = data.coord.lon;
             console.log(location, lat, lon);
-
-            localStorage.setItem(`${location}-lat`, lat);
-            localStorage.setItem(`${location}-lon`, lon);
-
-            let searchResult = document.querySelector("#search");
-            let displaySearchResult = document.createElement('button');
-            displaySearchResult.classList.add("btn", "btn-secondary", "history-button", `${location}`);
-            displaySearchResult.textContent = location;
-            searchResult.appendChild(displaySearchResult);
-
 
 
             // fetch request for weather data
@@ -71,6 +78,10 @@ getForecastBtn.addEventListener("click", function (event) {
                         let date = dataArray[i].dt_txt;
                         date = (date.slice(0, 11));
                         let icon = dataArray[i].weather[0].icon;
+                        let iconDisplay = document.createElement("img")
+                        iconDisplay.setAttribute("src", `https://openweathermap.org/img/wn/${icon}@2x.png`);
+
+
                         let temperature = "Temp: " + dataArray[i].main.temp + "\u00B0C";
                         let humidity = "Humidity: " + dataArray[i].main.humidity + "%";
 
@@ -79,82 +90,44 @@ getForecastBtn.addEventListener("click", function (event) {
                         let windSpeed = "Wind: " + windConvert + " Kph";
 
                         let day = document.querySelector(`#day${i}`);
-                        let infoArray = [date, icon, temperature, humidity, windSpeed];
+                        let infoArray = [date, temperature, humidity, windSpeed];
 
                         for (let j = 0; j < infoArray.length; j++) {
 
                             let newDiv = document.createElement('div');
                             newDiv.textContent = infoArray[j];
+                            newDiv.appendChild(iconDisplay);
                             day.appendChild(newDiv);
                         };
                     };
                 });
 
-
-
-
-            // adding event listener to run the function when search history is clicked
-
-            // let historyButtonEl = document.querySelector(".history-button")
-            // historyButtonEl.addEventListener("click", function (event) {
-            //     event.preventDefault();
-            //     console.log(event);
-            //     let clickedLocation = event.target.innerText;
-            //     let clickedLat = localStorage.getItem(`${clickedLocation}-lat`);
-            //     let clickedLon = localStorage.getItem(`${clickedLocation}-lon`);
-            //     let clickedUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + clickedLat + "&lon=" + clickedLon + "&appid=" + apiKey + "&units=metric";
-
-            //     fetch(clickedUrl)
-            //         .then(function (response) {
-            //             return response.json();
-            //         })
-            //         .then(function (data) {
-            //             console.log(data);
-
-            //             // slice out values 0, 8, 16, 24, 32, 40 from data array
-            //             let dataArray = [data.list[0], data.list[8], data.list[16], data.list[24], data.list[32], data.list[39]];
-
-            //             let cityEl = document.querySelector("#city");
-            //             cityEl.textContent = data.city.name;
-
-            //             //for 5 day forecast use loop and creating elements in loop
-
-            //             for (let i = 0; i < dataArray.length; i++) {
-
-            //                 let date = dataArray[i].dt_txt;
-            //                 date = (date.slice(0, 11));
-            //                 let icon = dataArray[i].weather[0].icon;
-            //                 let temperature = "Temp: " + dataArray[i].main.temp + "\u00B0C";
-            //                 let humidity = "Humidity: " + dataArray[i].main.humidity + "%";
-
-            //                 let wind = dataArray[i].wind.speed * 1.60934;
-            //                 let windConvert = wind.toFixed(2);
-            //                 let windSpeed = "Wind: " + windConvert + " Kph";
-
-            //                 let day = document.querySelector(`#day${i}`);
-            //                 let infoArray = [date, icon, temperature, humidity, windSpeed];
-
-            //                 for (let j = 0; j < infoArray.length; j++) {
-
-            //                     let newDiv = document.createElement('div');
-            //                     newDiv.textContent = infoArray[j];
-            //                     day.appendChild(newDiv);
-            //                 };
-            //             };
-            //         });
-            // });
         });
-});
+}
 
+
+function getElementFromLocalStorage() {
+    let localStorageArray = JSON.parse(localStorage.getItem("history"));
+    console.log(localStorageArray);
+    if (localStorageArray !== null) {
+        historyArray = localStorageArray;
+        for (let m = 0; m < historyArray.length; m++) {
+            // searchResult.appendChild(historyArray[m]);
+            let displaySearchResult = document.createElement('button');
+            displaySearchResult.classList.add("btn", "btn-secondary", "history-button", `${historyArray[m]}`);
+            displaySearchResult.textContent = historyArray[m];
+            displaySearchResult.addEventListener("click", function (event) {
+                event.preventDefault();
+                getWeather(displaySearchResult.textContent);
+            })
+            searchResult.appendChild(displaySearchResult);
+        }
+    }
+}
+getElementFromLocalStorage();
 
 
 //tutor help - convert codes to images, clear child elements on button click, add event listener to search history
-
-
-
-
-
-
 
 
 
