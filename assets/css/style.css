@@ -1,0 +1,33 @@
+.display {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+#search {
+    display: grid;
+    justify-items: center;
+}
+
+h4 {
+    padding-top: 5%;
+}
+
+header {
+    font-weight: 600;
+    font-size: larger;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#city {
+    font-size: larger;
+    font-weight: 400;
+}
+
+#dashboard {
+    color: aliceblue;
+    font-size: xx-large;
+}
+
+#day0 {}
