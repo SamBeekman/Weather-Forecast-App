@@ -28,6 +28,31 @@ header {
 #dashboard {
     color: aliceblue;
     font-size: xx-large;
+    background-color: #002d6f !important;
 }
 
-#day0 {}
+body {
+    background-color: rgb(13, 110, 253);
+    border: solid 5px #002d6f;
+    padding: 1%;
+}
+
+#city-search {
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+    background-color: #cfe2ff !important;
+}
+
+.btn {
+    width: -webkit-fill-available;
+}
+
+.history-button {
+    align-items: center;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+html {
+    background-color: aliceblue;
+}
