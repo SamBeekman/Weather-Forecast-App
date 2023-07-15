@@ -27,7 +27,9 @@ WHEN I click on a city in the search history
 THEN I am again presented with current and future conditions for that city
 ```
 
-Link to deployed site:
+Link to deployed site: https://sambeekman.github.io/weather-app/
+
+![weather app](https://github.com/SamBeekman/weather-app/assets/131665093/e0cc591a-07a5-4f7f-8b10-6c35127b0c6d)
 
 
 
