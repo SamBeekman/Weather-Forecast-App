@@ -39,5 +39,5 @@ N/A
 
 ## Usage
 
-To use the app, type the name of a city whose weather you ish to view. Todays weather and a 5-day forcast should then display. 
+To use the app, type the name of a city whose weather you wish to view. Todays weather and a 5-day forcast should then display. 
 You can also click on any cities in the 'Search History' area and have those cities re-displayed.
