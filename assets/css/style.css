@@ -29,18 +29,22 @@ header {
     color: aliceblue;
     font-size: xx-large;
     background-color: #002d6f !important;
+    min-width: 100vw !important;
+    padding-top: 1% !important;
+    margin-bottom: 1% !important;
 }
 
 body {
     background-color: rgb(13, 110, 253);
-    border: solid 5px #002d6f;
-    padding: 1%;
+    /* border: solid 5px #002d6f; */
+    padding-bottom: 1%;
 }
 
 #city-search {
     margin-top: 0.5rem !important;
     margin-bottom: 0.5rem !important;
     background-color: #cfe2ff !important;
+    border: solid 4px #002d6f !important;
 }
 
 .btn {
@@ -54,5 +58,14 @@ body {
 }
 
 html {
-    background-color: aliceblue;
+    background-color: #6c757d4f;
+}
+
+#day0,
+#day1,
+#day2,
+#day3,
+#day4,
+#day5 {
+    border: solid 4px #002d6f !important;
 }
